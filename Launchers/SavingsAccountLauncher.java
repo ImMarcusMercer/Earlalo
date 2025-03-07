@@ -1,4 +1,4 @@
 package Launchers;
 
-public class SavingsAccountLauncher {
+public class SavingsAccountLauncher extends AccountLauncher{
 }
