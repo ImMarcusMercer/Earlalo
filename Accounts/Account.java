@@ -3,7 +3,7 @@ package Accounts;
 import java.util.ArrayList;
 import Bank.*;
 
-public abstract class Account {
+public class Account {
     protected Bank bank;
     protected String accountNumber;
     protected String ownerFName,ownerLName,ownerEmail;
@@ -17,6 +17,13 @@ public abstract class Account {
         this.ownerEmail = ownerEmail;
         this.pin = pin;
         this.transactions = new ArrayList<>();
+    }
+    public Bank getBank()
+    {
+        return this.bank;
+    }
+    public String getPin() {
+        return pin;
     }
     public String getAccountNumber() {
         return accountNumber;
@@ -32,6 +39,7 @@ public abstract class Account {
 
     public String getTransactionsInfo() {
         StringBuilder info = new StringBuilder();
+        info.append("=====Transactions=====");
         for (Transaction transaction : transactions) {
             info.append(transaction.toString()).append("\n");
         }

@@ -1,6 +1,11 @@
 package Main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import Accounts.Account;
+import Bank.*;
+import Launchers.*;
 
 public class Main
 {
@@ -16,9 +21,14 @@ public class Main
      */
     public static Field<Integer, Integer> option = new Field<Integer, Integer>("Option",
             Integer.class, -1, new Field.IntegerFieldValidator());
-
     public static void main(String[] args)
     {
+        BankLauncher BLauncher = new BankLauncher();
+        ArrayList<Bank> Banks= new ArrayList<>();
+        Bank CheckBank = null;
+        Bank Bank1 = new Bank(1,"BDO","123",10000.0,10000.0,1000.0,100.0);
+//        Account acc1=new Account("BDO","1234","Janmarc","Pulmones","example@gmail.com","12345");
+//        Bank1.addNewAccount(acc1);
         while (true)
         {
             showMenuHeader("Main Menu");
@@ -33,18 +43,72 @@ public class Main
                 showMenuHeader("Account Login Menu");
                 showMenu(2, 1);
                 setOption();
-                showMenu(getOption(), 1);
+//                showMenu(getOption(), 1);
                 // TODO: Complete this portion
+                if(getOption()==1)
+                {
+                    showMenu(33);
+                    setOption();
+                    if(getOption()==1)
+                    {
+                        showMenuHeader("Credit Account");
+                        CreditAccountLauncher caLauncher = new CreditAccountLauncher();
+                    }
+                    else if(getOption()==2)
+                    {
+                        showMenuHeader("Savings Account");
+                        SavingsAccountLauncher SALauncher = new SavingsAccountLauncher();
+                        System.out.print("Enter Savings Account Number: ");
+                        String accNumber = input.nextLine();
+                        Account checkAccount =BLauncher.findAccount(accNumber);
+                        if(checkAccount!=null)
+                        {
+                            System.out.print("Enter PIN: ");
+                            String Pin = input.nextLine();
+                            if(checkAccount.getPin().equals(Pin))
+                            {
+                                SALauncher.selectBank(checkAccount.getBank());
+                                SALauncher.login(accNumber,Pin);
+                                if(SALauncher.isLoggedIn())
+                                {
+                                    //show SALauncher menu
+                                    showMenuHeader("Savings Account");
+                                    showMenu(51);
+                                    setOption();
+                                    SALauncher.savingsAccountInit(SALauncher,getOption());
+                                }
+                            }
+                        }
+                        else{System.out.println("Account does not exist!");}
+
+                    }
+                }
+                else if(getOption()==0)
+                {
+                    break;
+                }
+
+
             }
             // Bank Option
             else if (getOption() == 2)
             {
                 // TODO: Complete Bank option
+                showMenuHeader("Banks");
+                showMenuHeader("Bank Login");
+                showMenu(3);
+                setOption();
+                //Assuming successful login
+                //if(isLogged == true){}
+                showMenuHeader("My Accounts");
+                showMenu(31);
+                setOption();
             }
             // Create New Bank
             else if (getOption() == 3)
             {
                 // TODO: Complete this portion...
+                showMenuHeader("Creating New Bank");
             }
             else if (getOption() == 4)
             {
