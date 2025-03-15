@@ -1,54 +1,54 @@
 package Accounts;
 
 import java.util.ArrayList;
-import Bank.Bank;
+import Bank.*;
 
-public class Account
-{
-    String ACCOUNTNUMBER, OWNERFNAME, OWNERLNAME, OWNEREMAIL;
-    String pin;
-    ArrayList <Transaction> TRANSACTIONS= new ArrayList<>();
-
-    public Account(){}
-    public Account(Bank Bank,String ACCOUNTNUMBER, String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin)
-    {
-        this.ACCOUNTNUMBER=ACCOUNTNUMBER;
-        this.OWNERFNAME=OWNERFNAME;
-        this.OWNERLNAME=OWNERLNAME;
-        this.OWNEREMAIL=OWNEREMAIL;
-        this.pin=pin;
+public class Account {
+    protected Bank bank;
+    protected String accountNumber;
+    protected String ownerFName,ownerLName,ownerEmail;
+    protected String pin;
+    protected ArrayList<Transaction> transactions;
+    public Account(Bank bank, String accountNumber, String ownerFName, String ownerLName, String ownerEmail, String pin) {
+        this.bank = bank;
+        this.accountNumber = accountNumber;
+        this.ownerFName = ownerFName;
+        this.ownerLName = ownerLName;
+        this.ownerEmail = ownerEmail;
+        this.pin = pin;
+        this.transactions = new ArrayList<>();
     }
-    /**Return fullname
-     */
-    public String getOwnerFullName()
+    public Bank getBank()
     {
-        return this.OWNERLNAME+", "+this.OWNERFNAME;
+        return this.bank;
     }
-
-    /**Add Transaction+description to Database/JSON
-     */
-    public void addNewTransaction(String Accnum, Transaction.Transactions transaction, String Description)
-    {
-        //TO-DO: Complete this method
-        //Date/Timestamp: Activity
+    public String getPin() {
+        return pin;
+    }
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    /**
-     * Return Transaction Logs
-     */
-    public String getTransactions()
-    {
-        return "";
+    public String getOwnerFullName() {
+        return ownerFName + " " + ownerLName;
     }
 
-    /**Account Number:
-     *Account Name:
-     *Email:
-     */
-    public String toString()
-    {
-
-        return "";
+    public void addNewTransaction(String accountNum, Transaction.Transactions type, String description) {
+        transactions.add(new Transaction(accountNum, type, description));
     }
 
+    public String getTransactionsInfo() {
+        StringBuilder info = new StringBuilder();
+        info.append("=====Transactions=====");
+        for (Transaction transaction : transactions) {
+            info.append(transaction.toString()).append("\n");
+        }
+        return info.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "Account Number: " + accountNumber + "\nOwner: " + getOwnerFullName()+"\n";
+    }
 }
+

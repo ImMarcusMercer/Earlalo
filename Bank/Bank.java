@@ -1,32 +1,102 @@
 package Bank;
 
-import Accounts.Account;
-import java.util.ArrayList;
+import Accounts.*;
+import Main.Field;
+
+import java.util.*;
 
 public class Bank {
 
-    int ID;
-    String name, password;
-    double DEPOSITLIMIT, WITHDRAWLIMIT,CREDITLIMIT;
-    double processingFee;
-    ArrayList <Account> BANKACCOUNTS;
 
-    //Constructors
-    public Bank(){}
-    public Bank(int id, String name, String password){}
+    protected int ID;
+    protected String name, password;
+    protected double DEPOSITLIMIT, WITHDRAWLIMIT,CREDITLIMIT;
+    protected double processingFee;
+    protected ArrayList <Account> BANKACCOUNTS;
 
-    public Bank(int id, String name, String password, double  DEPOSITLIMIT, double WITHDRAWLIMIT, double CREDITLIMIT, double processingFee)
+
+
+
+    public Bank(int ID, String name, String password) {
+        this.ID = ID;
+        this.name = name;
+        this.password = password;
+        this.BANKACCOUNTS = new ArrayList<>();
+    }
+
+    public Bank(int ID, String name, String password, double  DEPOSITLIMIT, double WITHDRAWLIMIT, double CREDITLIMIT, double processingFee)
     {
-        this.ID=id;
-        this.name=name;
-        this.password=password;
+        this(ID, name, password);
         this.DEPOSITLIMIT=DEPOSITLIMIT;
         this.WITHDRAWLIMIT=WITHDRAWLIMIT;
         this.CREDITLIMIT=CREDITLIMIT;
         this.processingFee=processingFee;
     }
 
-    //Methods
-//    public void showAccounts(Class<T> accuntType){}
+    public String getName() {
+        return name;
+    }
+    public int getID()
+    {
+        return this.ID;
+    }
+    public ArrayList<Account> getBANKACCOUNTS()
+    {
+        return BANKACCOUNTS;
+    }
+
+    public <T> void showAccounts(Class<T> accountType) {
+        for (Account account : this.BANKACCOUNTS)
+        {
+            if (accountType.isInstance(account))
+            {
+                System.out.println(account);
+            }
+        }
+    }
+    public Account getBankAccount(String accountNum) {
+        for (Account account : BANKACCOUNTS) {
+            if (account.getAccountNumber().equals(accountNum)) {
+                return account;
+            }
+        }
+        return null;
+    }
+    public ArrayList<Field<String, ?>> createNewAccount() {
+        return new ArrayList<>();
+    }
+
+    public CreditAccount createNewCreditAccount(Bank bank, String accountNumber, String ownerFName, String ownerLName, String ownerEmail, String pin) {
+        return new CreditAccount( bank,  accountNumber,  ownerFName,  ownerLName,  ownerEmail,  pin);
+    }
+
+    public SavingsAccount createNewSavingsAccount(Bank bank, String accNum, String ownerFName, String ownerLName, String ownerEmail, String pin, double balance) {
+        return new SavingsAccount(bank, accNum, ownerFName, ownerLName,ownerEmail, pin,balance);
+    }
+
+    public void addNewAccount(Account account) {
+        BANKACCOUNTS.add(account);
+    }
+
+    public boolean accountExists(Bank bank, String accountNum) {
+        for(Account accs: bank.BANKACCOUNTS)
+        {
+            if(accs.getAccountNumber().equals(accountNum))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Bank ID: " + ID + ", Name: " + name;
+    }
+
 
 }
+
+
+
+
